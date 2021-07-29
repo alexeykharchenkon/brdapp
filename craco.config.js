@@ -12,6 +12,7 @@ module.exports = {
             '@stores': resolvePath('./src/app/common/stores'),
             '@common': resolvePath('./src/app/common'),
             '@styles': resolvePath('./src/app/common/styles'),
+            '@components': resolvePath('./src/app/components'),
         }
     },
   

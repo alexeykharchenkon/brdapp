@@ -1,0 +1,30 @@
+.element {
+    height: 75px;
+    width: 75px;
+    border-radius: 5%;
+    margin: 15px;
+    color: #000000 !important;
+}
+.element:hover {
+    border: 2px solid #0095a8 !important;
+}
+.start{
+    border-radius: 50% !important;
+    background-color: #6ff9ff !important;
+}
+.end{
+    border-radius: 50% !important;
+    background-color: #f44336 !important;
+}
+.phase{
+    background-color: white !important;
+}
+.decision{
+    background-color: whitesmoke !important;
+    height: 70px;
+    width: 70px;
+    transform: translateX(0px) rotate(45deg) !important;
+}
+.subworkflow{
+    background-color: burlywood !important;
+}

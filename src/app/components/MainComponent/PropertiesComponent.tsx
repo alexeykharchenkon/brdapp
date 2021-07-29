@@ -5,7 +5,7 @@ export const PropertiesComponent = () => {
 
     return(
         <div className="properties">
-Prop
+            <h3>Properties</h3>
         </div>
     );
 }
