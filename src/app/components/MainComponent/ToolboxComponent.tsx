@@ -1,20 +1,23 @@
 import React from 'react';
 import { Button } from 'beautiful-react-ui';
-import { buttonsToolboxInitData } from '@common/data/toolboxData';
+import { initData } from '@common/data/initData';
+import { ActionTypes } from '@models/enumTypes';
 
 interface ToolboxProps {
-    addNewNode: any;
+    operationsFunc: any;
 }
 
-export const ToolboxComponent = ({addNewNode}: ToolboxProps) => {
+export const ToolboxComponent = ({operationsFunc}: ToolboxProps) => {
     return(
         <div className="toolbox">
             <div className="toolboxButtons">  
                 <h3>Add Node</h3>
-                {buttonsToolboxInitData?.array?.map((el, index) => (
+                {initData?.elementsArray?.map((el, index) => (
                     <Button 
                         key={index}
-                        onClick={() => addNewNode(el)}
+                        onClick={() => {
+                            operationsFunc(ActionTypes.ADDNODE, el);
+                          }}
                         className={el.className}
                     >
                         {el.text}

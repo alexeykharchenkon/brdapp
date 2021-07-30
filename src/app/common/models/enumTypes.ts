@@ -9,5 +9,5 @@ export enum NodeTypes {
     End, 
     Phase,
     Decision,
-    SubWorkFlow
-  }
+    SubWorkFlow,
+}

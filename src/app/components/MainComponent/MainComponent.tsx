@@ -9,7 +9,7 @@ export const MainComponent = observer(() => {
         <div className="main">
             <DiagramComponent
                 schema={dataStore.schema}
-                crudOperations={dataStore.crudOperations}
+                operationsFunc={dataStore.operationsFunc}
             />
         </div>
     );

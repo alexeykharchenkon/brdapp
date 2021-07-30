@@ -1,14 +1,27 @@
-import { NodeTypes } from "./enumTypes";
-
 export type NodeData = {
-  onDelete?: (data?: NodeData) => void;
+  onDelete?: (id: string) => void;
   onConnect?: (data?: NodeData) => void;
-  type?: NodeTypes;
+  type?: string;
   className?: string;
+  isAFirstElement?: boolean;
+  dataForSelect?: DataForSelect[],
+  maxInputs: number;
+  maxOutputs: number;
 };
 
-export interface ToolBoxElementData {
+export interface ElementData {
   className: string;
-  type: NodeTypes;
+  type: string;
   text: string;
+  maxInputs: number;
+  maxOutputs: number;
+}
+export interface ConnectPair {
+  from: string;
+  to: string;
+}
+
+export interface DataForSelect {
+  label: string;
+  value: string;
 }
