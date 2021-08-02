@@ -42,13 +42,20 @@ export class DataStore {
                 this.deleteNode(element);
                 break;
             case ActionTypes.CONNECTNODES:
-                this.connectNodes(element.from, element.to);
+                this.connectNodes(element.from, element.to, element.label);
                 break;
         }
         this.schema = {...this.schema}
     }
 
     addNode = (element: ElementData) => {
+        const inputs = [];
+        const outputs = [];
+
+        if(element.type !== NodeTypes[NodeTypes.Start]) inputs.push({id: uuidv4()});
+        if(element.type !== NodeTypes[NodeTypes.End]) outputs.push({id: uuidv4()});
+        if(element.type === NodeTypes[NodeTypes.Decision]) outputs.push({id: uuidv4()});
+
         const node: any = {
           id: uuidv4(),
           content: `${element.text} ${this.schema.nodes.length + 1}`,
@@ -67,8 +74,8 @@ export class DataStore {
               maxInputs: element.maxInputs,
               maxOutputs: element.maxOutputs,
             },
-            inputs: element.type !== NodeTypes[NodeTypes.Start] ? [{id: uuidv4()}] : [],
-            outputs: element.type !== NodeTypes[NodeTypes.End] ? [{id: uuidv4()}] : [],
+            inputs: inputs,
+            outputs: outputs,
         };
         this.schema.nodes.push(node); 
 
@@ -84,15 +91,29 @@ export class DataStore {
 
         this.setDataForSelect();
     }
-    connectNodes = (from: string, to: string) => {
-        const outputsFrom = this.schema.nodes.find(n => n.id === from)?.outputs as Port[];
-        const inputsTo = this.schema.nodes.find(n => n.id === to)?.inputs as Port[];
+    connectNodes = (from: string, to: string, label: string) => {
+        const nodeFrom  = this.schema.nodes.find(n => n.id === from);
+        const nodeTo  = this.schema.nodes.find(n => n.id === to);
 
-        const link = {
-            input: outputsFrom[0].id,
-            output: inputsTo[0].id,
+        if(nodeFrom?.data?.type === NodeTypes[NodeTypes.Decision]){
+            if(label === "Yes"){
+                this.addLink(nodeFrom?.outputs as Port[], nodeTo?.inputs as Port[], 0, label, nodeFrom?.data?.maxOutputs as number, nodeTo?.data?.maxInputs as number);
+            }else{
+                this.addLink(nodeFrom?.outputs as Port[], nodeTo?.inputs as Port[], 1, label, nodeFrom?.data?.maxOutputs as number, nodeTo?.data?.maxInputs as number);
+            }
+        }else{
+            this.addLink(nodeFrom?.outputs as Port[], nodeTo?.inputs as Port[], 0, label, nodeFrom?.data?.maxOutputs as number, nodeTo?.data?.maxInputs as number);
         }
-        this.schema.links?.push(link);
+    }
+
+    addLink = (outputsFrom: Port[], inputsTo: Port[], i: number, label: string, maxOutputs: number, maxInputs: number) => {
+        this.schema.links = this.schema.links?.filter(l => l.input !== outputsFrom[i].id);
+
+        const linksOut = this.schema.links?.filter(l => l.input  === outputsFrom[i].id);
+        const linksIn = this.schema.links?.filter(l => l.output  === inputsTo[0].id);
+
+        if(linksOut?.length as number < maxOutputs && linksIn?.length as number < maxInputs) 
+            this.schema.links?.push({ input: outputsFrom[i].id,  output: inputsTo[0].id, label: label });
     }
 
     setDataForSelect = () => {

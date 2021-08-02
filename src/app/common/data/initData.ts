@@ -20,7 +20,7 @@ const elementsArray: ElementData[] = [
         className: "element phase",  
         type: NodeTypes[NodeTypes.Phase], 
         text: 'Phase',
-        maxInputs: 10,
+        maxInputs: 5,
         maxOutputs: 1,
     },
     {
@@ -34,7 +34,7 @@ const elementsArray: ElementData[] = [
         className: "element subworkflow", 
         type: NodeTypes[NodeTypes.SubWorkFlow], 
         text: 'Sub Workflow',
-        maxInputs: 10,
+        maxInputs: 1,
         maxOutputs: 1,
     },
 ];
